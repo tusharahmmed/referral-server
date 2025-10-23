@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { Model, Types } from 'mongoose';
+import { ClientSession, Model, Types } from 'mongoose';
 
 export type IUser = {
   _id: Types.ObjectId;
@@ -14,5 +14,8 @@ export type IUser = {
 
 export interface UserModel extends Model<IUser> {
   //get user id by reffer code
-  getUserIdByRefferCode(code: string): Promise<Pick<IUser, '_id'>>;
+  getUserIdByRefferCode(
+    code: string,
+    session?: ClientSession,
+  ): Promise<Pick<IUser, '_id'>>;
 }

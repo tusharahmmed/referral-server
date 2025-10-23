@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcrypt';
-import { model, Schema } from 'mongoose';
+import { ClientSession, model, Schema } from 'mongoose';
 import config from '../../../config';
 import { USER_ROLE } from '../../../enums/user';
 import { IUser, UserModel } from './user.interface';
@@ -52,8 +52,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.statics.getUserIdByRefferCode = async function (code: string) {
-  const user = await User.findOne({ referral_code: code });
+userSchema.statics.getUserIdByRefferCode = async function (
+  code: string,
+  session?: ClientSession,
+) {
+  const user = await User.findOne({ referral_code: code }).session(
+    session || null,
+  );
   return user?._id;
 };
 

@@ -25,52 +25,55 @@ const signup = async (payload: ISignupPaylod) => {
 
   const { referred_user_code } = payload;
 
-  try {
-    // if has reffered user
-    if (referred_user_code) {
-      const refferer_id = await User.getUserIdByRefferCode(referred_user_code);
-
-      if (refferer_id) {
-        payload.referred_by = refferer_id as mongoose.Types.ObjectId;
+  return await mongoose.connection.transaction(async session => {
+    try {
+      if (referred_user_code) {
+        const refferer_id = await User.getUserIdByRefferCode(
+          referred_user_code,
+          session,
+        );
+        if (refferer_id) {
+          payload.referred_by = refferer_id as mongoose.Types.ObjectId;
+        }
       }
+
+      // create user
+      const createdUser = await User.create([payload], { session });
+      const user = createdUser[0];
+
+      // insert into referral
+      if (user?.referred_by) {
+        await Referral.create(
+          [
+            {
+              referral_by: user?.referred_by,
+              reffer_to: user?._id,
+              credit: 2,
+              status: REFERRAL_STATUS.pending,
+            },
+          ],
+          { session },
+        );
+      }
+
+      // generate token
+      const accessToken = jwtHelpers.createToken(
+        { id: user?._id, role: user?.role },
+        config.jwt.secret as Secret,
+        config.jwt.expires_in as string,
+      );
+
+      const refreshToken = jwtHelpers.createToken(
+        { id: user?._id, role: user?.role },
+        config.jwt.refresh_secret as Secret,
+        config.jwt.refresh_expires_in as string,
+      );
+
+      return { accessToken, refreshToken };
+    } catch (error: any) {
+      throw new Error(error);
     }
-
-    // create user
-    const createdUser = await User.create(payload);
-
-    // insert into referral
-    if (createdUser?.referred_by) {
-      await Referral.create({
-        referral_by: createdUser?.referred_by,
-        reffer_to: createdUser?._id,
-        credit: 2,
-        status: REFERRAL_STATUS.pending,
-      });
-    }
-
-    // generate token
-    const accessToken = jwtHelpers.createToken(
-      {
-        id: createdUser?._id,
-        role: createdUser?.role,
-      },
-      config.jwt.secret as Secret,
-      config.jwt.expires_in as string,
-    );
-
-    const refreshToken = jwtHelpers.createToken(
-      {
-        id: createdUser?._id,
-        role: createdUser?.role,
-      },
-      config.jwt.refresh_secret as Secret,
-      config.jwt.refresh_expires_in as string,
-    );
-
-    return { accessToken, refreshToken };
-  } catch (error: any) {
-    throw new Error(error);
-  }
+  });
 };
 const signin = async () => {
   return { accessToken: '', refreshToken: '' };
