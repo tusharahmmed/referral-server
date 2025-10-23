@@ -52,7 +52,7 @@ const createOrder = async (payload: Pick<IOrder, 'course_id' | 'user_id'>) => {
     // if first order and has referral
     if (isFirstOrder && userDetails?.referred_by) {
       // change referral status
-      await Referral.findOneAndUpdate(
+      const updatedReferral = await Referral.findOneAndUpdate(
         {
           reffer_to: userDetails?._id,
         },
@@ -73,7 +73,7 @@ const createOrder = async (payload: Pick<IOrder, 'course_id' | 'user_id'>) => {
               userDetails?.referred_by as Types.ObjectId,
             ),
             reffer_to: new Types.ObjectId(userDetails?._id),
-            credit: 2,
+            credit: updatedReferral?.credit,
             order_id: new Types.ObjectId(order?._id),
           },
         ],
@@ -81,7 +81,12 @@ const createOrder = async (payload: Pick<IOrder, 'course_id' | 'user_id'>) => {
       );
     }
 
-    return order;
+    const result = await Order.findById(order._id)
+      .populate('course_id')
+      .populate('user_id')
+      .session(session);
+
+    return result;
   });
 };
 

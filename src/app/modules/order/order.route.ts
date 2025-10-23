@@ -58,10 +58,10 @@ const router = Router();
  *                       example: 68fc91a8b7f2d9a47a0f9c11
  *                     user_id:
  *                       type: string
- *                       example: 68fc91a8b7f2d9a47a0f9c11
+ *                       example: user_details
  *                     course_id:
  *                       type: string
- *                       example: 68fc91a8b7f2d9a47a0f9c12
+ *                       example: course_details
  *                     createdAt:
  *                       type: string
  *                       format: date-time
