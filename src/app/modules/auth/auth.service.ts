@@ -6,9 +6,11 @@ import httpStatus from 'http-status';
 import { JwtPayload, Secret } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../../config';
+import { REFERRAL_STATUS } from '../../../enums/referral';
 import { USER_ROLE } from '../../../enums/user';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import Referral from '../referral/referral.model';
 import User from '../user/user.model';
 import { ISignupPaylod } from './auth.interface';
 import { generateReferralCode } from './auth.utils';
@@ -37,6 +39,14 @@ const signup = async (payload: ISignupPaylod) => {
     const createdUser = await User.create(payload);
 
     // insert into referral
+    if (createdUser?.referred_by) {
+      await Referral.create({
+        referral_by: createdUser?.referred_by,
+        reffer_to: createdUser?._id,
+        credit: 2,
+        status: REFERRAL_STATUS.pending,
+      });
+    }
 
     // generate token
     const accessToken = jwtHelpers.createToken(

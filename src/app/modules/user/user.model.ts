@@ -18,6 +18,7 @@ const userSchema = new Schema<IUser, UserModel>(
     password: {
       type: String,
       required: true,
+      select: 0,
     },
     referral_code: {
       type: String,
@@ -50,6 +51,11 @@ userSchema.pre('save', async function (next) {
 
   next();
 });
+
+userSchema.statics.getUserIdByRefferCode = async function (code: string) {
+  const user = await User.findOne({ referral_code: code });
+  return user?._id;
+};
 
 const User = model<IUser, UserModel>('User', userSchema);
 
