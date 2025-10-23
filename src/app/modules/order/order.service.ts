@@ -1,4 +1,5 @@
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import mongoose, { Types } from 'mongoose';
 import { REFERRAL_STATUS } from '../../../enums/referral';
 import ApiError from '../../../errors/ApiError';
@@ -9,7 +10,15 @@ import User from '../user/user.model';
 import { IOrder } from './order.interface';
 import Order from './order.model';
 
-const createOrder = async (payload: Pick<IOrder, 'course_id' | 'user_id'>) => {
+const createOrder = async (
+  payload: Pick<IOrder, 'course_id' | 'user_id'>,
+  requestedUser: JwtPayload,
+) => {
+  // check same user
+  if (payload?.user_id !== requestedUser?.id) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+  }
+
   return await mongoose.connection.transaction(async session => {
     // get user
     const userDetails = await User.findById(
