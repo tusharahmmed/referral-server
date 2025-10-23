@@ -5,7 +5,9 @@ import sendResponse from '../../../shared/sendResponse';
 import { AuthService } from './auth.service';
 
 const signup = catchAsync(async (req, res) => {
-  const { refreshToken, accessToken } = await AuthService.signup();
+  const payload = req.body;
+
+  const { refreshToken, accessToken } = await AuthService.signup(payload);
 
   // set refresh token to cookie
   res.cookie('refreshToken', refreshToken, {
@@ -21,7 +23,7 @@ const signup = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User created successfully!',
-    data: accessToken,
+    data: { accessToken },
   });
 });
 

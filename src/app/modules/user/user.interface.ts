@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Model, Types } from 'mongoose';
 
 export type IUser = {
@@ -10,8 +12,7 @@ export type IUser = {
   role: string;
 };
 
-export type UserModel = Model<
-  IUser,
-  Record<string, unknown>
-  //  IUserMethods
->;
+export interface UserModel extends Model<IUser> {
+  //get user id by reffer code
+  getUserIdByRefferCode(code: string): Promise<Pick<IUser, '_id'>>;
+}
