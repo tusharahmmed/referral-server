@@ -184,4 +184,108 @@ router.delete(
   CourseController.deleteCourse,
 );
 
+/**
+ * @swagger
+ * /courses:
+ *   get:
+ *     summary: Get all courses
+ *     description: Retrieve all courses with search, sorting, filtering, and pagination.
+ *     tags:
+ *       - Course
+ *     parameters:
+ *       - in: query
+ *         name: searchTerm
+ *         schema:
+ *           type: string
+ *         description: Search by name, description, or instructor.
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [price, -price, createdAt, -createdAt]
+ *           default: -createdAt
+ *         description: Sort by price or creation date. Prefix with "-" for descending order.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination.
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of results per page.
+ *     responses:
+ *       200:
+ *         description: Courses retrieved successfully!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Courses retrieved successfully!
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                       example: 1
+ *                     limit:
+ *                       type: integer
+ *                       example: 10
+ *                     total:
+ *                       type: integer
+ *                       example: 42
+ *                     totalPage:
+ *                       type: integer
+ *                       example: 5
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: 68fa762caad2ffe034ad0b54
+ *                       name:
+ *                         type: string
+ *                         example: JavaScript Mastery
+ *                       description:
+ *                         type: string
+ *                         example: Learn JavaScript from scratch to advanced.
+ *                       price:
+ *                         type: number
+ *                         example: 99.99
+ *                       instructor:
+ *                         type: string
+ *                         example: John Doe
+ *                       thumbnail:
+ *                         type: string
+ *                         example: https://example.com/js-course.jpg
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2025-10-13T15:00:00Z
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2025-10-13T15:10:00Z
+ */
+
+router.get(
+  '/',
+  auth(USER_ROLE.SUPER_ADMIN, USER_ROLE.USER),
+  CourseController.getAllCourse,
+);
+
 export const CourseRoutes = router;
