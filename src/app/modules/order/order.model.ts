@@ -47,7 +47,7 @@ orderSchma.statics.isFirstOrder = async function (
     user_id: new Types.ObjectId(user_id),
   }).session(session || null);
 
-  return !!orderExist;
+  return !orderExist;
 };
 
 const Order = model<IOrder, OrderModel>('Order', orderSchma);
