@@ -70,8 +70,9 @@ const router = Router();
  *                     description:
  *                       type: string
  *                     price:
- *                       type: string
- *                       description: The course price as a decimal value.
+ *                       type: number
+ *                       format: decimal
+ *                       description: The price of the course.
  *                     instructor:
  *                       type: string
  *                     thumbnail:
