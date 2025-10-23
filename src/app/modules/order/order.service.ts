@@ -69,7 +69,7 @@ const createOrder = async (payload: Pick<IOrder, 'course_id' | 'user_id'>) => {
       await CreditActivity.create(
         [
           {
-            referral_by: new Types.ObjectId(
+            referred_by: new Types.ObjectId(
               userDetails?.referred_by as Types.ObjectId,
             ),
             reffer_to: new Types.ObjectId(userDetails?._id),

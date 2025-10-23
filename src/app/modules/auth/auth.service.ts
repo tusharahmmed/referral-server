@@ -46,7 +46,7 @@ const signup = async (payload: ISignupPaylod) => {
         await Referral.create(
           [
             {
-              referral_by: user?.referred_by,
+              referred_by: user?.referred_by,
               reffer_to: user?._id,
               credit: 2,
               status: REFERRAL_STATUS.pending,

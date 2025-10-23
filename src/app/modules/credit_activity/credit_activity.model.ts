@@ -6,7 +6,7 @@ import {
 
 const creditActivitySchema = new Schema<ICreditActivity, CreditActivityModel>(
   {
-    referral_by: {
+    referred_by: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,

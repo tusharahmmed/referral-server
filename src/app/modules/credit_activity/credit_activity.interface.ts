@@ -4,7 +4,7 @@ import { IUser } from '../user/user.interface';
 
 export type ICreditActivity = {
   _id: Types.ObjectId;
-  referral_by: Types.ObjectId | IUser;
+  referred_by: Types.ObjectId | IUser;
   reffer_to: Types.ObjectId | IUser;
   credit: number;
   order_id: Types.ObjectId | IOrder;

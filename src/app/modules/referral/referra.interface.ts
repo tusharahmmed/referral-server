@@ -3,7 +3,7 @@ import { IUser } from '../user/user.interface';
 
 export type IReferral = {
   _id: Types.ObjectId;
-  referral_by: Types.ObjectId | IUser;
+  referred_by: Types.ObjectId | IUser;
   reffer_to: Types.ObjectId | IUser;
   status: 'pending' | 'converted';
   credit: number;

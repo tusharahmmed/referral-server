@@ -5,7 +5,7 @@ import { IReferral, ReferralModel } from './referra.interface';
 
 const referralSchema = new Schema<IReferral, ReferralModel>(
   {
-    referral_by: {
+    referred_by: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
