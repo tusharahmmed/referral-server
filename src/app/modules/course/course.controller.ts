@@ -16,6 +16,20 @@ const createCourse = catchAsync(async (req, res) => {
   });
 });
 
+const deleteCourse = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await CourseService.deleteCourse(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course deleted successfully!',
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
+  deleteCourse,
 };
