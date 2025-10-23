@@ -24,6 +24,7 @@ const orderSchma = new Schema<IOrder, OrderModel>(
   },
   {
     timestamps: true,
+    toJSON: { getters: true },
   },
 );
 
