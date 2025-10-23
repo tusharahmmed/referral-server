@@ -28,7 +28,7 @@ const signup = catchAsync(async (req, res) => {
 });
 
 const signin = catchAsync(async (req, res) => {
-  const { refreshToken, accessToken } = await AuthService.signin();
+  const { refreshToken, accessToken } = await AuthService.signin(req.body);
 
   // set refresh token to cookie
   res.cookie('refreshToken', refreshToken, {

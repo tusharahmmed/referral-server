@@ -18,4 +18,11 @@ export interface UserModel extends Model<IUser> {
     code: string,
     session?: ClientSession,
   ): Promise<Pick<IUser, '_id'>>;
+
+  isUserExistsByEmail(email: string): Promise<IUser>;
+
+  isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
 }

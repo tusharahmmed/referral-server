@@ -52,6 +52,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// statics
 userSchema.statics.getUserIdByRefferCode = async function (
   code: string,
   session?: ClientSession,
@@ -60,6 +61,17 @@ userSchema.statics.getUserIdByRefferCode = async function (
     session || null,
   );
   return user?._id;
+};
+
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
+};
+
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 
 const User = model<IUser, UserModel>('User', userSchema);

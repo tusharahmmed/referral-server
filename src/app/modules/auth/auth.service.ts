@@ -12,7 +12,7 @@ import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import Referral from '../referral/referral.model';
 import User from '../user/user.model';
-import { ISignupPaylod } from './auth.interface';
+import { ISignInPaylod, ISignupPaylod } from './auth.interface';
 import { generateReferralCode } from './auth.utils';
 
 const signup = async (payload: ISignupPaylod) => {
@@ -75,8 +75,31 @@ const signup = async (payload: ISignupPaylod) => {
     }
   });
 };
-const signin = async () => {
-  return { accessToken: '', refreshToken: '' };
+const signin = async (payload: ISignInPaylod) => {
+  const user = await User.isUserExistsByEmail(payload.email);
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'user is not found !');
+  }
+
+  //check password
+  if (!(await User.isPasswordMatched(payload?.password, user?.password)))
+    throw new ApiError(httpStatus.FORBIDDEN, 'Password do not matched');
+
+  // generate token
+  const accessToken = jwtHelpers.createToken(
+    { id: user?._id, role: user?.role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string,
+  );
+
+  const refreshToken = jwtHelpers.createToken(
+    { id: user?._id, role: user?.role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string,
+  );
+
+  return { accessToken, refreshToken };
 };
 
 // refresh token service

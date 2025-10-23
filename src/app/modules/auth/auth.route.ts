@@ -95,9 +95,27 @@ router.post(
  *                 minLength: 6
  *     responses:
  *       200:
- *         description: User logged in successfully
- *       404:
- *         description: Not found
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: User signin successfully!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       type: string
+ *                       example: jwt_token
+ *                       description: JWT access token returned after successful registration.
  */
 router.post(
   '/sign-in',
