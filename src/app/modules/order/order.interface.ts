@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 /* eslint-disable no-unused-vars */
-import { Model, Types } from 'mongoose';
+import { ClientSession, Model, Types } from 'mongoose';
 import { ICourse } from '../course/course.interface';
 import { IUser } from '../user/user.interface';
 
@@ -13,5 +13,8 @@ export type IOrder = {
 
 export interface OrderModel extends Model<IOrder> {
   // check first order
-  isFirstOrder(user_id: Types.ObjectId): Promise<boolean>;
+  isFirstOrder(
+    user_id: Types.ObjectId,
+    session?: ClientSession,
+  ): Promise<boolean>;
 }

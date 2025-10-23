@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { model, Schema, Types } from 'mongoose';
+import { ClientSession, model, Schema, Types } from 'mongoose';
 import { IOrder, OrderModel } from './order.interface';
 
 const orderSchma = new Schema<IOrder, OrderModel>(
@@ -38,10 +38,14 @@ orderSchma.pre('save', function (next) {
   next();
 });
 
-orderSchma.statics.isFirstOrder = async function (user_id: Types.ObjectId) {
+orderSchma.statics.isFirstOrder = async function (
+  user_id: Types.ObjectId,
+  session?: ClientSession,
+) {
   const orderExist = await Order.exists({
     user_id: new Types.ObjectId(user_id),
-  });
+  }).session(session || null);
+
   return !!orderExist;
 };
 
