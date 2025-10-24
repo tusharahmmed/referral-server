@@ -9,10 +9,12 @@ const courseSchema = new Schema<ICourse, CourseModel>(
     name: {
       type: String,
       required: true,
+      index: true,
     },
     description: {
       type: String,
       required: true,
+      index: true,
     },
     price: {
       type: Types.Decimal128,
@@ -23,6 +25,7 @@ const courseSchema = new Schema<ICourse, CourseModel>(
     instructor: {
       type: String,
       required: true,
+      index: true,
     },
     thumbnail: {
       type: String,

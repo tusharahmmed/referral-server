@@ -9,6 +9,7 @@ const orderSchma = new Schema<IOrder, OrderModel>(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+      index: true,
     },
     course_id: {
       type: Schema.Types.ObjectId,

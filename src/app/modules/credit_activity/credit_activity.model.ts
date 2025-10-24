@@ -10,11 +10,14 @@ const creditActivitySchema = new Schema<ICreditActivity, CreditActivityModel>(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+      index: true,
     },
     reffer_to: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+      unique: true,
+      index: true,
     },
     credit: {
       type: Number,

@@ -14,12 +14,15 @@ const referralSchema = new Schema<IReferral, ReferralModel>(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+      unique: true,
+      index: true,
     },
     status: {
       type: String,
       required: true,
       enum: Object.values(REFERRAL_STATUS),
       default: REFERRAL_STATUS.pending,
+      index: true,
     },
     credit: {
       type: Number,

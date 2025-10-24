@@ -14,6 +14,8 @@ const userSchema = new Schema<IUser, UserModel>(
     email: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     password: {
       type: String,
@@ -23,6 +25,8 @@ const userSchema = new Schema<IUser, UserModel>(
     referral_code: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     referred_by: {
       type: Schema.Types.ObjectId,
