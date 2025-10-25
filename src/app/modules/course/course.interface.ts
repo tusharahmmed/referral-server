@@ -7,6 +7,7 @@ export type ICourse = {
   price: Types.Decimal128;
   instructor: string;
   thumbnail: string;
+  isDeleted: boolean;
 };
 
 export type CourseModel = Model<ICourse>;

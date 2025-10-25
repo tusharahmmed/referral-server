@@ -31,6 +31,11 @@ const courseSchema = new Schema<ICourse, CourseModel>(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      select: 0,
+    },
   },
   {
     timestamps: true,

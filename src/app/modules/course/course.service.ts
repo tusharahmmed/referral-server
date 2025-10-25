@@ -17,7 +17,10 @@ const createCourse = async (payload: ICourse) => {
 const getAllCourse = async (
   query: Record<string, unknown>,
 ): Promise<IGenericResponse<any>> => {
-  const courseQuery = new QueryBuilder(Course.find(), query)
+  const courseQuery = new QueryBuilder(Course.find(), {
+    ...query,
+    isDeleted: false,
+  })
     .search(CourseSearchableFields)
     .filter()
     .sort()
@@ -36,12 +39,18 @@ const getAllCourse = async (
 const deleteCourse = async (id: string) => {
   const _id = new Types.ObjectId(id);
 
-  const result = await Course.findByIdAndDelete({ _id });
+  const result = await Course.findByIdAndUpdate(
+    _id,
+    {
+      isDeleted: true,
+    },
+    { new: true },
+  );
 
   if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course does not exist!');
   }
-  return result;
+  return { _id: result?._id, deletedCount: 1 };
 };
 
 export const CourseService = {
