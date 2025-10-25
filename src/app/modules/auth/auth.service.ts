@@ -120,7 +120,7 @@ const refreshToken = async (payload: string) => {
   // check user exist
   const { id } = verifiedToken;
 
-  const verifiedUser = {};
+  const verifiedUser = await User.findOne({ _id: id });
 
   if (!verifiedUser) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
@@ -129,7 +129,8 @@ const refreshToken = async (payload: string) => {
   // generate new accessToken
   const newAccessToken = jwtHelpers.createToken(
     {
-      id: 'user_id',
+      id: verifiedUser?._id,
+      role: verifiedUser?.role,
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,

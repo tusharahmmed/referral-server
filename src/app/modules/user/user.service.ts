@@ -22,7 +22,12 @@ const getPorfileStats = async (userId: string) => {
     },
   ]);
 
-  return result;
+  // return
+  if (result?.length > 0) {
+    return result?.[0];
+  } else {
+    return { totalReferred: 0, convertedUsers: 0, totalCreditsEarned: 0 };
+  }
 };
 
 export const UserService = {

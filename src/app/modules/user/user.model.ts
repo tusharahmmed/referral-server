@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from 'bcrypt';
+import httpStatus from 'http-status';
 import { ClientSession, model, Schema } from 'mongoose';
 import config from '../../../config';
 import { USER_ROLE } from '../../../enums/user';
+import ApiError from '../../../errors/ApiError';
 import { IUser, UserModel } from './user.interface';
 
 const userSchema = new Schema<IUser, UserModel>(
@@ -64,6 +66,9 @@ userSchema.statics.getUserIdByRefferCode = async function (
   const user = await User.findOne({ referral_code: code }).session(
     session || null,
   );
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Referral user does not exit!');
+  }
   return user?._id;
 };
 
