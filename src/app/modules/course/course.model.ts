@@ -35,6 +35,7 @@ const courseSchema = new Schema<ICourse, CourseModel>(
       type: Boolean,
       default: false,
       select: 0,
+      index: true,
     },
   },
   {
