@@ -4,15 +4,15 @@ A comprehensive referral and credit management system built for course marketpla
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Database Schema](#database-schema)
-- [Getting Started](#getting-started)
-- [API Documentation](#api-documentation)
-- [Referral Flow](#referral-flow)
-- [Business Logic](#business-logic)
-- [Environment Variables](#environment-variables)
-- [Installation](#installation)
+- [Features](#-features)
+- [System Architecture](#-system-architecture)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Referral Flow](#-referral-flow)
+- [Business Logic](#-business-logic)
+- [Referral Statistics](#-referral-statistics)
+- [Environment Variables](#-environment-variables)
+- [Installation](#-installation)
 
 ## ✨ Features
 
@@ -59,24 +59,6 @@ The ER diagram shows all entities and their relationships:
 - Node.js >= 22.x
 - MongoDB >= 8.x
 - npm or yarn
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <repository-url>
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env
-
-# Start the server
-npm start
-```
-
-The API will be available at `http://localhost:3000`
 
 ## 📚 API Documentation
 
@@ -181,9 +163,8 @@ JWT_EXPIRES_IN=5m
 JWT_REFRESH_SECRET=your_jwt_secret_key
 JWT_REFRESH_EXPIRES_IN=7d
 
-# Bcript
+# Bcrypt
 BCRYPT_SALT_ROUNDS=10
-
 ```
 
 ## 📦 Installation
@@ -210,4 +191,10 @@ yarn dev
 yarn start
 ```
 
-**Built with ❤️ using Node.js, Express, Typescript and Mongoose**
+The API will be available at `http://localhost:3000`
+
+Access Swagger documentation at `http://localhost:3000/api-docs`
+
+---
+
+**Built with ❤️ using Node.js, Express, TypeScript and Mongoose**
