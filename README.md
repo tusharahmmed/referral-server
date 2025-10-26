@@ -64,7 +64,7 @@ The ER diagram shows all entities and their relationships:
 
 Interactive API documentation is available via Swagger UI:
 
-**Swagger Docs**: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+**Swagger Docs**: [https://filesure-server.vercel.app/api-docs](https://filesure-server.vercel.app/api-docs)
 
 ## 🔄 Referral Flow
 
@@ -191,9 +191,9 @@ yarn dev
 yarn start
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:5000/api/v1`
 
-Access Swagger documentation at `http://localhost:3000/api-docs`
+Access Swagger documentation at `http://localhost:5000/api-docs`
 
 ---
 
