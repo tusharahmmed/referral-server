@@ -18,7 +18,10 @@ const mongoose_1 = require("mongoose");
 const QueryBuilder_1 = __importDefault(require("../../../builder/QueryBuilder"));
 const credit_activity_model_1 = __importDefault(require("./credit_activity.model"));
 const getActivitiesByUserId = (query, userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const filteredQuery = Object.assign({ referred_by: new mongoose_1.Types.ObjectId(userId) }, query);
+    const filteredQuery = Object.assign({ $or: [
+            { referred_by: new mongoose_1.Types.ObjectId(userId) },
+            { reffer_to: new mongoose_1.Types.ObjectId(userId) },
+        ] }, query);
     const creditActivityQuery = new QueryBuilder_1.default(credit_activity_model_1.default.find().populate([
         {
             path: 'referred_by',

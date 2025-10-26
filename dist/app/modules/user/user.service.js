@@ -20,18 +20,43 @@ const getPorfileStats = (userId) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield referral_model_1.default.aggregate([
         {
             $match: {
-                referred_by: new mongoose_1.Types.ObjectId(userId),
+                $or: [
+                    { referred_by: new mongoose_1.Types.ObjectId(userId) },
+                    {
+                        reffer_to: new mongoose_1.Types.ObjectId(userId),
+                        status: 'converted',
+                    },
+                ],
             },
         },
         {
             $group: {
-                _id: '$referred_by',
-                totalReferred: { $sum: 1 },
+                _id: null,
+                totalReferred: {
+                    $sum: {
+                        $cond: [
+                            { $eq: ['$referred_by', new mongoose_1.Types.ObjectId(userId)] },
+                            1,
+                            0,
+                        ],
+                    },
+                },
                 convertedUsers: {
-                    $sum: { $cond: [{ $eq: ['$status', 'converted'] }, 1, 0] },
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ['$referred_by', new mongoose_1.Types.ObjectId(userId)] },
+                                    { $eq: ['$status', 'converted'] },
+                                ],
+                            },
+                            1,
+                            0,
+                        ],
+                    },
                 },
                 totalCreditsEarned: {
-                    $sum: { $cond: [{ $eq: ['$status', 'converted'] }, '$credit', 0] },
+                    $sum: '$credit',
                 },
             },
         },

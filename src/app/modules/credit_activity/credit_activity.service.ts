@@ -9,7 +9,10 @@ const getActivitiesByUserId = async (
   userId: string,
 ): Promise<IGenericResponse<any>> => {
   const filteredQuery = {
-    referred_by: new Types.ObjectId(userId),
+    $or: [
+      { referred_by: new Types.ObjectId(userId) },
+      { reffer_to: new Types.ObjectId(userId) },
+    ],
     ...query,
   };
   const creditActivityQuery = new QueryBuilder(
