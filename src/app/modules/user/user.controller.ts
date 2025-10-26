@@ -16,6 +16,20 @@ const getPorfileStats = catchAsync(async (req, res) => {
   });
 });
 
+const getProfileDetais = catchAsync(async (req, res) => {
+  const user = req.user;
+
+  const result = await UserService.getProfileDetais(user?.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Profile details retrieved successfully!',
+    data: result,
+  });
+});
+
 export const UserController = {
   getPorfileStats,
+  getProfileDetais,
 };

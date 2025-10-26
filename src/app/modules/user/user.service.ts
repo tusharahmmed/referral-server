@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import Referral from '../referral/referral.model';
+import User from './user.model';
 
 const getPorfileStats = async (userId: string) => {
   const result = await Referral.aggregate([
@@ -30,6 +31,13 @@ const getPorfileStats = async (userId: string) => {
   }
 };
 
+const getProfileDetais = async (userId: string) => {
+  const result = await User.findOne({ _id: new Types.ObjectId(userId) });
+
+  return result;
+};
+
 export const UserService = {
   getPorfileStats,
+  getProfileDetais,
 };

@@ -63,4 +63,63 @@ router.get(
   UserController.getPorfileStats,
 );
 
+/**
+ * @swagger
+ * /users/profile-details:
+ *   get:
+ *     summary: Get user profile details
+ *     description: Retrieve the profile information of the currently authenticated user.
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Requires JWT authentication
+ *     responses:
+ *       200:
+ *         description: Profile details retrieved successfully!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Profile details retrieved successfully!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: 68faa3af0c315f904eeaaf9a
+ *                     name:
+ *                       type: string
+ *                       example: Tushar
+ *                     email:
+ *                       type: string
+ *                       example: tushar@gmail.com
+ *                     referral_code:
+ *                       type: string
+ *                       example: tushar-8rwm8u
+ *                     referred_by:
+ *                       type: string
+ *                       nullable: true
+ *                       example: null
+ *                     createdAt:
+ *                       type: string
+ *                       example: 2025-10-23T18:38:36.917Z
+ *                     updatedAt:
+ *                       type: string
+ *                       example: 2025-10-23T18:38:36.917Z
+ */
+
+router.get(
+  '/profile-details',
+  auth(USER_ROLE.SUPER_ADMIN, USER_ROLE.USER),
+  UserController.getProfileDetais,
+);
+
 export const UserRoutes = router;
