@@ -123,7 +123,6 @@ router.post('/sign-in', (0, validateRequest_1.default)(auth_validation_1.AuthVal
  *   post:
  *     summary: Refresh access token
  *     tags: [Auth]
- *     deprecated: true
  *     security:
  *       - cookieAuth: []
  *     requestBody:

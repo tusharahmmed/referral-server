@@ -26,9 +26,9 @@ const signup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
         httpOnly: true,
         secure: config_1.default.env === 'production',
         sameSite: 'none',
-        // secure: false,
-        // domain: '',
+        domain: config_1.default.env === 'production' ? config_1.default.server_domain : '',
         expires: new Date(Date.now() + 12 * 30 * 24 * 3600000), // 1year
+        path: '/',
     });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -44,9 +44,9 @@ const signin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
         httpOnly: true,
         secure: config_1.default.env === 'production',
         sameSite: 'none',
-        // secure: false,
-        // domain: '',
+        domain: config_1.default.env === 'production' ? config_1.default.server_domain : '',
         expires: new Date(Date.now() + 12 * 30 * 24 * 3600000), // 1year
+        path: '/',
     });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

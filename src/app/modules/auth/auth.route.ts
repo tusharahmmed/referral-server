@@ -129,7 +129,6 @@ router.post(
  *   post:
  *     summary: Refresh access token
  *     tags: [Auth]
- *     deprecated: true
  *     security:
  *       - cookieAuth: []
  *     requestBody:

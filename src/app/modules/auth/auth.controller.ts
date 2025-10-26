@@ -14,9 +14,9 @@ const signup = catchAsync(async (req, res) => {
     httpOnly: true,
     secure: config.env === 'production',
     sameSite: 'none',
-    // secure: false,
-    // domain: '',
+    domain: config.env === 'production' ? config.server_domain : '',
     expires: new Date(Date.now() + 12 * 30 * 24 * 3600000), // 1year
+    path: '/',
   });
 
   sendResponse(res, {
@@ -35,9 +35,9 @@ const signin = catchAsync(async (req, res) => {
     httpOnly: true,
     secure: config.env === 'production',
     sameSite: 'none',
-    // secure: false,
-    // domain: '',
+    domain: config.env === 'production' ? config.server_domain : '',
     expires: new Date(Date.now() + 12 * 30 * 24 * 3600000), // 1year
+    path: '/',
   });
 
   sendResponse(res, {

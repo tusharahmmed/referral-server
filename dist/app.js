@@ -11,7 +11,12 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const routes_1 = require("./app/routes");
 const swagger_1 = require("./swagger");
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use((0, cookie_parser_1.default)());
 //parser
 app.use(express_1.default.json());
